@@ -1,7 +1,7 @@
 {
-  "latest_version": "0.1",
-  "version_code": 1,
-  "download_url": "https://infogamescout-spec.github.io/GameScout/GameScout-v0.1.apk",
-  "release_notes": "İlk sürüm yayınlandı! Fırsatlar, istek listesi, eşleşme, sosyal özellikler ve çok daha fazlası.",
-  "release_date": "2026-07-10"
+  "latest_version": "0.2",
+  "version_code": 2,
+  "download_url": "https://infogamescout-spec.github.io/GameScout/GameScout-v0.2.apk",
+  "release_notes": "🎉 GameScout v0.2 Dev Güncelleme!\n• 🎙️ Canlı Ses Değiştirici (Voice Changer)\n• 🖐️ Sahne Kanalları & Moderatör Sırası\n• 🎧 3D Konumsal Ses (Stereo Panning)\n• 🔊 Soundboard Ses Tahtası\n• ⏱️ Zamana Aşımı / Geçici Susturma (Timeout Mute)\n• 🤖 Müzik Botu (YouTube/SoundCloud Oynatıcı & Oylama)\n• 🌐 P2P & Sunucu Röle Hibrit Bağlantı\n• 🎛️ AGC (Auto Gain) & 16-384 kbps Bitrate Seçici\n• 🏆 Turnuva Fikstür Motoru (Bracket Engine)\n• 📷 Görüntülü Arama & Internal Ses Yayını",
+  "release_date": "2026-07-23"
 }
