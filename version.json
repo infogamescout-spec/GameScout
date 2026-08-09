@@ -1,7 +1,6 @@
 {
-  "latest_version": "0.3",
-  "version_code": 4,
-  "download_url": "https://infogamescout-spec.github.io/GameScout/GameScout-v0.3.apk",
-  "release_notes": "🎉 GameScout v0.3 Güncellemesi!\n• 🎬 4K Fragman İzleme ve Oynanış Ekranı\n• 🎮 Steam Başarım ve Oynama Süresi Entegrasyonu\n• ⚡ 24 Saatlik Günlük Ödül Güvenlik Kilidi\n• 🔄 Otomatik Sürüm Kontrolü & İçi Güncelleme Uyarısı\n• 🌐 Cihaz Yerel Para Birimi Otomatik Algılama (TL, EUR, USD)\n• 📊 Gelişmiş Mağaza Filtreleri & %90+ İndirimler",
-  "release_date": "2026-08-08"
+  "latestVersion": "0.3",
+  "versionCode": 3,
+  "downloadUrl": "https://infogamescout-spec.github.io/GameScout/gamescout.apk",
+  "releaseNotes": "0.3 Sürüm Yenilikleri: Otomatik misafir girişi kaldırıldı, Google ve E-posta hoş geldin e-postaları aktif edildi, mağaza ve canlı oyun haberleri güncellendi."
 }
