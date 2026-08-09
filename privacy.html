@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameScout — Gizlilik Politikası</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0f111a;
+            color: #f8fafc;
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #161925;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(139, 92, 246, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 30%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        h2 {
+            font-size: 1.4rem;
+            color: #8b5cf6;
+            margin-top: 30px;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+            padding-bottom: 8px;
+        }
+        p, li {
+            color: #94a3b8;
+            font-size: 1.05rem;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #8b5cf6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="back-link">← Ana Sayfaya Dön</a>
+    <h1>GameScout Gizlilik Politikası</h1>
+    <p><strong>Son Güncelleme:</strong> 10 Temmuz 2026</p>
+    
+    <p>GameScout olarak gizliliğinize büyük önem veriyoruz. Bu Gizlilik Politikası, mobil uygulamamızı ve web sitemizi kullanırken kişisel verilerinizin nasıl işlendiği ve korunduğu hakkında sizi bilgilendirmek amacıyla hazırlanmıştır.</p>
+
+    <h2>1. Toplanan Veriler ve Kullanım Amacı</h2>
+    <p>Uygulamamızın temel işlevlerini yerine getirebilmesi için aşağıdaki veriler işlenmektedir:</p>
+    <ul>
+        <li><strong>Hesap ve Profil Bilgileri:</strong> LFG (takım arkadaşı arama) ve chat (sohbet) özelliklerini kullanabilmeniz için belirlediğiniz kullanıcı adı, e-posta adresi ve şifre veritabanımızda saklanır. Şifreleriniz cihazınızda ve sunucuda SHA-256 algoritması ile güvenli bir şekilde şifrelenir.</li>
+        <li><strong>İstek Listesi ve Fiyat Alarmları:</strong> Takip ettiğiniz oyunlar ve belirlediğiniz fiyat alarmı eşikleri, indirim zamanlarında size bildirim gönderebilmemiz için işlenir.</li>
+        <li><strong>SMTP E-Posta Ayarları:</strong> Kendi Gmail hesabınız üzerinden e-posta fiyat alarmları alabilmeniz için girdiğiniz e-posta ve uygulama şifresi bilgileri yerel cihazınızda (Room DB) şifrelenmiş olarak saklanır, üçüncü partilerle paylaşılmaz.</li>
+    </ul>
+
+    <h2>2. Verilerin Saklanması ve Güvenliği</h2>
+    <ul>
+        <li>Verilerinizin büyük bir kısmı cihazınızda yerel SQLite (Room) veritabanında saklanır.</li>
+        <li>Sohbet ve LFG ilanları gibi dinamik sosyal özellikler için kullanılan veritabanı bağlantıları şifreli ve güvenli protokoller (SSL/TLS) üzerinden gerçekleştirilir.</li>
+    </ul>
+
+    <h2>3. Üçüncü Taraf API Kullanımı</h2>
+    <p>Uygulamamız size en güncel fırsatları sunabilmek için aşağıdaki güvenli ve genel açık üçüncü taraf API'leri kullanır:</p>
+    <ul>
+        <li><strong>CheapShark API:</strong> Oyun indirimlerini ve fırsatlarını çekmek için kullanılır.</li>
+        <li><strong>GamerPower API:</strong> Ücretsiz oyun kampanyalarını listelemek için kullanılır.</li>
+        <li><strong>Frankfurter API:</strong> Fiyatların otomatik Türk Lirası'na (TRY) dönüştürülmesi için kullanılır.</li>
+    </ul>
+    <p>Bu üçüncü taraf servisler kişisel kimlik bilgilerinize erişemez.</p>
+
+    <h2>4. Kullanıcı Hakları</h2>
+    <p>Kullanıcılarımız her zaman hesaplarını ve bu hesaplara bağlı tüm kişisel verileri uygulama ayarlarından veya destek e-posta adresimiz üzerinden bizimle iletişime geçerek tamamen sildirme hakkına sahiptir.</p>
+
+    <h2>5. İletişim</h2>
+    <p>Gizlilik politikamızla ilgili her türlü soru ve talepleriniz için bize ulaşabilirsiniz:</p>
+    <p>✉️ <strong>E-Posta:</strong> <a href="mailto:infogamescout@gmail.com" style="color: #8b5cf6; text-decoration: none;">infogamescout@gmail.com</a></p>
+
+    <div class="footer">
+        <p>&copy; 2026 GameScout. Tüm hakları saklıdır.</p>
+    </div>
+</div>
+
+</body>
+</html>

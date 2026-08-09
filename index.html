@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameScout v0.3 — Oyun Fiyat Takipçisi, Steam Başarımları, Fragmanlar &amp; Sosyal Platform</title>
+    <meta name="description" content="GameScout v0.3 ile Steam, GOG, Epic Games indirimleri takip edin. 4K Fragmanlar, Steam başarımları, LFG eşleşme, bedava oyun radarı, Metacritic puanları ve GameCoin mağazası.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .version-strip{background:linear-gradient(90deg,#7c3aed 0%,#8b5cf6 50%,#6d28d9 100%);text-align:center;padding:9px 16px;font-size:13px;font-weight:600;color:#fff;letter-spacing:.3px}
+        .version-strip a{color:#e9d5ff;text-decoration:underline;margin-left:8px}
+        .whatsnew-bar{background:#0f111a;border-bottom:1px solid rgba(139,92,246,.15);overflow:hidden;white-space:nowrap}
+        .whatsnew-bar-inner{display:inline-block;padding:8px 0;animation:marquee 35s linear infinite;font-size:13px;color:#94a3b8}
+        .whatsnew-bar-inner span{color:#8b5cf6;font-weight:700;margin:0 6px}
+        .whatsnew-tag{display:inline-block;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);border-radius:20px;padding:2px 10px;margin:0 8px;font-size:12px;color:#a78bfa}
+        @keyframes marquee{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}
+        .feature-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:3rem}
+        .feature-tab{padding:8px 18px;border-radius:30px;border:1.5px solid rgba(139,92,246,.25);background:transparent;color:#94a3b8;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all .25s ease}
+        .feature-tab:hover,.feature-tab.active{background:rgba(139,92,246,.15);border-color:#8b5cf6;color:#a78bfa}
+        .feature-panel{display:none}.feature-panel.active{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+        .whats-new{padding:80px 0;background:linear-gradient(180deg,#0f111a 0%,#12142a 100%)}
+        .updates-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem;margin-top:2.5rem}
+        .update-card{background:#161925;border:1px solid rgba(139,92,246,.12);border-radius:16px;padding:20px;display:flex;align-items:flex-start;gap:14px;transition:all .25s ease}
+        .update-card:hover{border-color:rgba(139,92,246,.4);transform:translateY(-2px)}
+        .update-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+        .update-icon.purple{background:rgba(139,92,246,.15)}.update-icon.pink{background:rgba(236,72,153,.15)}.update-icon.green{background:rgba(16,185,129,.15)}.update-icon.blue{background:rgba(59,130,246,.15)}.update-icon.orange{background:rgba(245,158,11,.15)}
+        .update-card h4{font-size:15px;font-weight:700;color:#f1f5f9;margin-bottom:4px}.update-card p{font-size:13px;color:#64748b;line-height:1.5}
+        .new-badge{display:inline-block;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:6px;margin-left:6px;vertical-align:middle;text-transform:uppercase;letter-spacing:.5px}
+        .stats-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin:2.5rem 0}
+        .stat-item{text-align:center}.stat-num{font-size:2.5rem;font-weight:800;background:linear-gradient(135deg,#8b5cf6,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.stat-label{font-size:13px;color:#64748b;margin-top:2px}
+        .version-card{display:inline-flex;align-items:center;gap:14px;background:rgba(139,92,246,.08);border:1.5px solid rgba(139,92,246,.25);border-radius:14px;padding:12px 24px;margin-bottom:18px}
+        .version-card .vnum{font-size:22px;font-weight:800;color:#8b5cf6}.version-card .vlabel{font-size:11px;color:#64748b}
+        .changelog{background:#12142a;border-left:3px solid #8b5cf6;border-radius:10px;padding:16px 20px;text-align:left;margin-top:14px;font-size:14px;color:#94a3b8;line-height:1.8}
+        .changelog strong{display:block;color:#8b5cf6;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+        .github-note{margin-top:20px;font-size:13px;color:#475569}.github-note a{color:#8b5cf6;text-decoration:none;font-weight:600}.github-note a:hover{text-decoration:underline}
+        .gallery-tag{position:absolute;top:10px;left:10px;background:rgba(139,92,246,.85);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;backdrop-filter:blur(4px)}
+        .gallery-item{position:relative}
+        .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+        .gallery-item img{width:100%;height:auto;border-radius:12px;display:block;transition:transform .3s ease,box-shadow .3s ease}
+        .gallery-item:hover img{transform:scale(1.02);box-shadow:0 12px 40px rgba(139,92,246,.3)}
+        .gallery-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(0deg,rgba(10,12,26,.9) 0%,transparent 100%);border-radius:0 0 12px 12px;padding:16px 12px 10px;font-size:13px;font-weight:600;color:#e2e8f0;opacity:0;transition:opacity .3s ease}
+        .gallery-item:hover .gallery-overlay{opacity:1}
+        .highlight-strip{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:2rem 0 0}
+        .hl-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.25);border-radius:30px;padding:6px 14px;font-size:13px;color:#a78bfa;font-weight:600}
+        .hl-chip i{font-size:12px}
+    </style>
+</head>
+<body>
+
+<div class="version-strip">
+    🚀 &nbsp;<strong>v0.3 YENİ SÜRÜM YAYINDA!</strong> — 4K Oynanış Fragmanları, Steam Kütüphane &amp; Başarım Entegrasyonu, Firebase Otomatik Güncelleme Uyarısı
+    <a href="#download">v0.3 APK İndir</a>
+</div>
+
+<div class="whatsnew-bar">
+    <div class="whatsnew-bar-inner">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span>🔥 v0.3</span> <span class="whatsnew-tag">🎬 4K Fragman Oynatıcı</span>
+        <span>🔥 v0.3</span> <span class="whatsnew-tag">🎮 Steam Başarım &amp; Oyun Süresi</span>
+        <span>🔥 v0.3</span> <span class="whatsnew-tag">⚡ 24s Günlük Ödül Kilidi</span>
+        <span>🔥 v0.3</span> <span class="whatsnew-tag">🔄 Firebase Güncelleme Bildirimi</span>
+        <span>🔥 v0.3</span> <span class="whatsnew-tag">🌐 Otomatik Para Birimi (TL, EUR, USD)</span>
+        <span>🔥 v0.3</span> <span class="whatsnew-tag">📊 %90+ İndirim Filtresi</span>
+        <span>🔥 v0.3</span> <span class="whatsnew-tag">🎙️ Canlı Ses Değiştirici</span>
+        <span>🔥 v0.3</span> <span class="whatsnew-tag">🏆 Turnuva Motoru</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
+</div>
+
+<header class="navbar">
+    <div class="container navbar-container">
+        <div class="logo">
+            <i class="fa-solid fa-gamepad logo-icon"></i>
+            <span class="logo-text">GameScout</span>
+        </div>
+        <nav class="nav-links">
+            <a href="#features">Özellikler</a>
+            <a href="#whats-new">Yenilikler</a>
+            <a href="#screenshots">Görseller</a>
+            <a href="#download" class="nav-download-btn">İndir</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <span class="badge">🎮 Oyunculara Özel Süper Uygulama</span>
+                <h1>Fiyat Takibi, Eşleşme &amp; Sosyal Özellikler — Tek Uygulamada!</h1>
+                <p class="hero-description">
+                    GameScout; Steam, GOG, Epic Games ve daha fazlasındaki oyun indirimlerini anlık takip eder.
+                    4K oyun fragmanları, Steam başarımları, LFG eşleşme, arkadaş sohbeti, bedava oyun radarı, Metacritic puanları
+                    ve GameCoin ödül sistemiyle tam bir oyuncu platformu!
+                </p>
+                <div class="hero-actions" style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+                    <a href="GameScout-v0.3.apk" class="btn btn-primary" id="download-btn-hero" download>
+                        <i class="fa-solid fa-download icon-left"></i> APK İndir &nbsp;<span style="opacity:.7;font-size:12px">v0.3</span>
+                    </a>
+                    <a href="https://apkpure.com/gamescout/com.aistudio.gamescout.pwqzs?utm_source=whatsapp&utm_campaign=share&utm_medium=social_network" target="_blank" class="btn btn-secondary" style="margin-left:0;">
+                        <i class="fa-solid fa-mobile-screen-button icon-left"></i> APKPure'dan İndir
+                    </a>
+                    <a href="#whats-new" class="btn btn-secondary" style="margin-left:0;">
+                        <i class="fa-solid fa-star icon-left"></i> Yenilikleri Gör
+                    </a>
+                </div>
+                <div class="stats-row">
+                    <div class="stat-item"><div class="stat-num">5+</div><div class="stat-label">Desteklenen Platform</div></div>
+                    <div class="stat-item"><div class="stat-num">5</div><div class="stat-label">Dil Seçeneği</div></div>
+                    <div class="stat-item"><div class="stat-num">∞</div><div class="stat-label">Gerçek Zamanlı Fiyat</div></div>
+                    <div class="stat-item"><div class="stat-num">Ödüllü</div><div class="stat-label">GameCoin &amp; Ücretsiz</div></div>
+                </div>
+                <div class="highlight-strip">
+                    <span class="hl-chip"><i class="fa-solid fa-film"></i> 4K Oynanış Fragmanı</span>
+                    <span class="hl-chip"><i class="fa-brands fa-steam"></i> Steam Başarımları</span>
+                    <span class="hl-chip"><i class="fa-solid fa-coins"></i> Günlük GameCoin Ödülü</span>
+                    <span class="hl-chip"><i class="fa-solid fa-rotate"></i> Otomatik Sürüm Kontrolü</span>
+                    <span class="hl-chip"><i class="fa-solid fa-microphone-lines"></i> Canlı Ses Değiştirici</span>
+                    <span class="hl-chip"><i class="fa-solid fa-headphones"></i> 3D Konumsal Ses</span>
+                    <span class="hl-chip"><i class="fa-solid fa-trophy"></i> Turnuva Motoru</span>
+                    <span class="hl-chip"><i class="fa-solid fa-moon"></i> Koyu Tema Splash</span>
+                </div>
+                <div class="stores-supported" style="margin-top:1.5rem">
+                    <span class="stores-label">Desteklenen Platformlar:</span>
+                    <div class="store-badges">
+                        <span class="store-tag"><i class="fa-brands fa-steam"></i> Steam</span>
+                        <span class="store-tag"><i class="fa-solid fa-bolt"></i> Epic Games</span>
+                        <span class="store-tag"><i class="fa-solid fa-g"></i> GOG</span>
+                        <span class="store-tag"><i class="fa-solid fa-h"></i> Humble Bundle</span>
+                        <span class="store-tag"><i class="fa-solid fa-f"></i> Fanatical</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="phone-mockup">
+                    <div class="phone-speaker"></div>
+                    <div class="phone-screen">
+                        <div class="slider-wrapper">
+                            <div class="slider-track" id="slider-track">
+                                <div class="slide"><img src="images/dashboard.png" alt="Fırsatlar Ekranı"></div>
+                                <div class="slide"><img src="images/filters.png" alt="%90+ İndirim Radarı"></div>
+                                <div class="slide"><img src="images/detail.png" alt="Oyun Detayı"></div>
+                                <div class="slide"><img src="images/coupons.png" alt="Şık Paylaşım Kartı &amp; QR"></div>
+                                <div class="slide"><img src="images/reviews.png" alt="Fiyat Geçmişi Grafiği"></div>
+                                <div class="slide"><img src="images/achievements.png" alt="Sistem Kontrolü"></div>
+                                <div class="slide"><img src="images/ratings_input.png" alt="Yıldızlı Oyun İncelemesi"></div>
+                                <div class="slide"><img src="images/profile.png" alt="Profil ve GameCoin"></div>
+                                <div class="slide"><img src="images/search.png" alt="Platform Arama"></div>
+                                <div class="slide"><img src="images/wishlist.png" alt="İstek Listesi"></div>
+                            </div>
+                        </div>
+                        <div class="slider-dots" id="slider-dots">
+                            <span class="dot active" data-slide="0"></span>
+                            <span class="dot" data-slide="1"></span>
+                            <span class="dot" data-slide="2"></span>
+                            <span class="dot" data-slide="3"></span>
+                            <span class="dot" data-slide="4"></span>
+                            <span class="dot" data-slide="5"></span>
+                            <span class="dot" data-slide="6"></span>
+                            <span class="dot" data-slide="7"></span>
+                            <span class="dot" data-slide="8"></span>
+                            <span class="dot" data-slide="9"></span>
+                        </div>
+                    </div>
+                    <div class="phone-home-button"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="whats-new" class="whats-new">
+        <div class="container">
+            <div class="section-header">
+                <h2>v0.3 Sürüm Yenilikleri</h2>
+                <p>Oynanış videoları, Steam kütüphane başarımları, akıllı sürüm denetimi ve güvenlik geliştirmeleriyle yeni GameScout v0.3.</p>
+            </div>
+            <div class="updates-grid">
+                <div class="update-card"><div class="update-icon purple"><i class="fa-solid fa-film" style="color:#8b5cf6"></i></div><div><h4>🎬 4K Fragman Oynatıcı <span class="new-badge">v0.3</span></h4><p>Oyun detay sayfalarında 4K kalitesinde fragmanlar ve YouTube/Steam oyun videoları izleyin.</p></div></div>
+                <div class="update-card"><div class="update-icon pink"><i class="fa-brands fa-steam" style="color:#ec4899"></i></div><div><h4>🎮 Steam Kütüphane &amp; Başarım <span class="new-badge">v0.3</span></h4><p>Steam profilinizi bağlayın. Açılan kütüphane başarımlarınızı ve toplam oynama sürenizi görüntüleyin.</p></div></div>
+                <div class="update-card"><div class="update-icon green"><i class="fa-solid fa-code-compare" style="color:#10b981"></i></div><div><h4>⚔️ Yan Yana Oyun Karşılaştırma <span class="new-badge">v0.3</span></h4><p>İki oyunu yan yana fiyat, Metacritic puanı, sistem gereksinimi ve dip fiyat bazında karşılaştırın.</p></div></div>
+                <div class="update-card"><div class="update-icon blue"><i class="fa-solid fa-gift" style="color:#3b82f6"></i></div><div><h4>🎁 Bedava Oyun Radarı <span class="new-badge">v0.3</span></h4><p>Epic Games, Steam, GOG, PlayStation ve Xbox platformlarındaki bedava oyun fırsatlarını kaçırmayın.</p></div></div>
+                <div class="update-card"><div class="update-icon orange"><i class="fa-solid fa-fingerprint" style="color:#f59e0b"></i></div><div><h4>🔒 Biyometrik Güvenlik Kilidi <span class="new-badge">v0.3</span></h4><p>Parmak izi veya yüz tanıma (Biometrics) ile uygulamanızı ve hesabınızı şifreleyin.</p></div></div>
+                <div class="update-card"><div class="update-icon purple"><i class="fa-solid fa-cloud-arrow-up" style="color:#8b5cf6"></i></div><div><h4>☁️ Bulut Senkronizasyon <span class="new-badge">v0.3</span></h4><p>İstek listenizi, fiyat alarmlarınızı ve GameCoin bakiyenizi tüm cihazlarınızda bulut ile senkronize edin.</p></div></div>
+                <div class="update-card"><div class="update-icon pink"><i class="fa-solid fa-newspaper" style="color:#ec4899"></i></div><div><h4>📰 Canlı Oyun Haber Akışı <span class="new-badge">v0.3</span></h4><p>IGN, PC Gamer ve GameSpot kaynaklı en son e-spor ve oyun haberlerini anında okuyun.</p></div></div>
+                <div class="update-card"><div class="update-icon green"><i class="fa-solid fa-volume-high" style="color:#10b981"></i></div><div><h4>🔊 Soundboard Ses Tahtası <span class="new-badge">v0.3</span></h4><p>Sesli odalarda Airhorn, Headshot, GG, Victory ve Bruh gibi 10+ komik efekti arkadaşlarınıza dinletin.</p></div></div>
+                <div class="update-card"><div class="update-icon blue"><i class="fa-solid fa-rotate" style="color:#3b82f6"></i></div><div><h4>🔄 Otomatik Sürüm Kontrolü <span class="new-badge">v0.3</span></h4><p>Firebase entegrasyonuyla eski sürüm kullanıcılarına doğrudan mağaza güncelleme bildirimi sunulur.</p></div></div>
+                <div class="update-card"><div class="update-icon orange"><i class="fa-solid fa-globe" style="color:#f59e0b"></i></div><div><h4>🌐 Otomatik Para Birimi Tespiti <span class="new-badge">v0.3</span></h4><p>Cihazınızın sistem bölgesine göre Türk Lirası (₺), Euro (€) veya Dolar ($) otomatik ayarlanır.</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>GameScout'un Tüm Özellikleri</h2>
+                <p>Oyun bütçenizi ve sosyal deneyiminizi yönetmek için ihtiyacınız olan her şey tek uygulamada.</p>
+            </div>
+            <div class="feature-tabs">
+                <button class="feature-tab active" data-panel="panel-deals">💰 Fiyat &amp; Karşılaştırma</button>
+                <button class="feature-tab" data-panel="panel-social">👥 Sesli Oda &amp; Sosyal</button>
+                <button class="feature-tab" data-panel="panel-profile">🎖️ Profil &amp; Başarımlar</button>
+                <button class="feature-tab" data-panel="panel-settings">⚙️ Güvenlik &amp; Ayarlar</button>
+            </div>
+            <div id="panel-deals" class="feature-panel active features-grid">
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-magnifying-glass-dollar"></i></div><h3>Fırsatlar ve Kampanyalar</h3><p>Steam, GOG, Epic Games, Humble Bundle ve Fanatical mağazalarındaki aktif indirimler.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-code-compare"></i></div><h3>Yan Yana Oyun Karşılaştırma</h3><p>İki oyunu yan yana fiyat, Metacritic puanı, PC gereksinimleri ve dip fiyat bazında karşılaştırın.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-film"></i></div><h3>4K Fragman ve Oyun Videoları</h3><p>Oyunların resmi gameplay videolarını ve 4K tanıtımlarını uygulama içinde izleyin.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div><h3>Fiyat Geçmişi Grafiği</h3><p>Seçtiğiniz oyunun etkileşimli fiyat geçmişi grafiği. Tarihi dip fiyatlar görselleştirilir.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-gift"></i></div><h3>Bedava Oyun Radarı</h3><p>GamerPower entegrasyonuyla Steam, Epic Games, GOG, PlayStation ve Xbox bedava oyunlarını takip edin.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-heart"></i></div><h3>İstek Listesi ve Fiyat Alarmı</h3><p>Takip ettiğiniz oyun hedef fiyata düştüğünde anlık bildirim ve e-posta uyarısı alın.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-newspaper"></i></div><h3>Canlı Oyun Haberleri</h3><p>IGN, PC Gamer ve GameSpot entegrasyonlu canlı oyun ve e-spor haberleri akışı.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-laptop-code"></i></div><h3>Sistem Gereksinimleri Testi</h3><p>PC donanımınızı (CPU, GPU, RAM) seçtiğiniz oyunun Minimum / Önerilen sistem gereksinimleriyle kıyaslayın.</p></div>
+            </div>
+            <div id="panel-social" class="feature-panel features-grid">
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-users"></i></div><h3>LFG Eşleşme Sistemi</h3><p>Valorant, CS2, GTA V, LoL, Apex Legends ve Fortnite için rütbe bazlı takım arkadaşı bulun.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-microphone"></i></div><h3>Canlı Sesli Sohbet Odaları</h3><p>Agora RTC altyapısıyla kesintisiz sesli görüşme yapın. Sahne kanalları (Stage) desteği.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div><h3>Canlı Ses Değiştirici (Voice Changer)</h3><p>Robot, Chipmunk (Sincap), Deep Voice, Echo ve Radio ses efektleriyle sesinizi değiştirin.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-volume-high"></i></div><h3>Soundboard Ses Tahtası</h3><p>Sesli odalarda Airhorn, Headshot, Victory, Bruh ve GG ses efektlerini anında çalın.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-headphones"></i></div><h3>3D Konumsal Ses (Stereo Spatial Audio)</h3><p>2D sahne üzerinde avatarların konumunu değiştirerek 360 derece konumsal ses deneyimi yaşayın.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-music"></i></div><h3>Müzik Botu (YouTube / SoundCloud)</h3><p>Sesli sohbet odalarında müzik listeleri oluşturun ve topluluk oylamasıyla parça değiştirin.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-comments"></i></div><h3>Birebir Özel Sohbet &amp; Arkadaşlık</h3><p>Arkadaş listesi oluşturun, anlık mesajlaşın ve okunmamış mesaj bildirimleri alın.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-trophy"></i></div><h3>Turnuva Fikstür Motoru</h3><p>Eleme turnuva braketleri oluşturun ve canlı maç skorlarını takip edin.</p></div>
+            </div>
+            <div id="panel-profile" class="feature-panel features-grid">
+                <div class="feature-card"><div class="feature-icon"><i class="fa-brands fa-steam"></i></div><h3>Steam Başarımları ve Oynama Süresi</h3><p>Steam hesabınızı bağlayarak kütüphane başarımlarınızı ve toplam oynama sürenizi sergileyin.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-id-card"></i></div><h3>Özelleştirilebilir Profil &amp; Avatar</h3><p>Profil fotoğrafınızı, profil kapak görselinizi, biyografinizi ve durum mesajınızı düzenleyin.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-award"></i></div><h3>Gözcü Rütbesi ve XP Seviyesi</h3><p>Stajyer Gözcü'den Efsane Avcı'ya yükselin. Uygulama içi aktivitelerle XP kazanın.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-coins"></i></div><h3>Günlük Ödül &amp; GameCoin Mağazası</h3><p>24 saatlik günlük claim ile GameCoin kazanın. İndirim kuponları ve VIP avantajları elde edin.</p></div>
+            </div>
+            <div id="panel-settings" class="feature-panel features-grid">
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-fingerprint"></i></div><h3>Biyometrik Güvenlik Kilidi</h3><p>Parmak izi veya yüz tanıma (Biometric Prompt) ile uygulamaya güvenli giriş yapın.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div><h3>Bulut Senkronizasyon &amp; Yedekleme</h3><p>İstek listesi, fiyat alarmları ve profil verilerinizi Firebase bulut veritabanına otomatik yedekleyin.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-rotate"></i></div><h3>Otomatik Firebase Sürüm Kontrolü</h3><p>Yeni sürüm yayınlandığında otomatik güncelleme penceresi ile anında haberdar olun.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-moon"></i></div><h3>OLED Koyu &amp; Aydınlık Tema</h3><p>Göz yormayan premium koyu tema varsayılandır. Tek dokunuşla tema değiştirin.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-language"></i></div><h3>5 Dil Desteği</h3><p>Türkçe, İngilizce, Almanca, Fransızca ve İspanyolca dilleri arasında anında geçiş yapın.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-envelope"></i></div><h3>Gmail SMTP E-posta Bildirimleri</h3><p>Fiyat düşüşlerinde doğrudan e-posta adresinize otomatik bildirim alın.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="screenshots" class="screenshots-gallery">
+        <div class="container">
+            <div class="section-header">
+                <h2>Uygulama İçi Arayüz Görselleri</h2>
+                <p>Premium karanlık tema ve modern Jetpack Compose — Gerçek uygulama içi görseller.</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item"><span class="gallery-tag">🔥 Öne Çıkan Fırsatlar</span><img src="images/dashboard.png" alt="Fırsatlar"><div class="gallery-overlay"><span>Gerçek Zamanlı Mağaza İndirimleri</span></div></div>
+                <div class="gallery-item"><span class="gallery-tag">🎬 4K Fragman &amp; Detay</span><img src="images/detail.png" alt="Oyun Detay Ekranı"><div class="gallery-overlay"><span>4K Fragman Oynatıcı &amp; Fiyat Geçmişi</span></div></div>
+                <div class="gallery-item"><span class="gallery-tag">🎮 Profil &amp; GameCoin</span><img src="images/profile.png" alt="Profil Ekranı"><div class="gallery-overlay"><span>Steam Başarımları &amp; Günlük Ödül</span></div></div>
+                <div class="gallery-item"><span class="gallery-tag">⚡ %90+ İndirim Radarı</span><img src="images/filters.png" alt="Dev İndirimler"><div class="gallery-overlay"><span>%90 ve Üzeri Flaş İndirimler</span></div></div>
+                <div class="gallery-item"><span class="gallery-tag">📸 Şık Kart &amp; QR Kod</span><img src="images/coupons.png" alt="Şık Paylaşım Kartı"><div class="gallery-overlay"><span>Sosyal Medya Kartı &amp; PRO Rozeti</span></div></div>
+                <div class="gallery-item"><span class="gallery-tag">📈 Fiyat Geçmişi Grafiği</span><img src="images/reviews.png" alt="Fiyat Grafiği"><div class="gallery-overlay"><span>Etkileşimli Dip Fiyat Grafiği</span></div></div>
+                <div class="gallery-item"><span class="gallery-tag">💻 Sistem Kontrolü</span><img src="images/achievements.png" alt="Sistem Kontrolü"><div class="gallery-overlay"><span>PC Gereksinimleri Testi</span></div></div>
+                <div class="gallery-item"><span class="gallery-tag">✍️ Yıldızlı Oyun İncelemesi</span><img src="images/ratings_input.png" alt="Oyun İnceleme"><div class="gallery-overlay"><span>Topluluk Yorumları &amp; Yıldızlı Puanlama</span></div></div>
+                <div class="gallery-item"><span class="gallery-tag">🎯 Platform Arama</span><img src="images/search.png" alt="Arama Ekranı"><div class="gallery-overlay"><span>Steam, Epic Games &amp; GOG Filtreleme</span></div></div>
+                <div class="gallery-item"><span class="gallery-tag">💖 İstek Listesi &amp; Alarm</span><img src="images/wishlist.png" alt="İstek Listesi"><div class="gallery-overlay"><span>Hedef Fiyat Düşüş Alarmları</span></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="app-info-section">
+        <div class="container">
+            <div class="info-contact-wrapper">
+                <div class="info-block">
+                    <h2>GameScout Nasıl Çalışır?</h2>
+                    <div class="info-detail-item">
+                        <i class="fa-solid fa-satellite-dish detail-icon"></i>
+                        <div><h4>7/24 Aktif API Entegrasyonu</h4><p>CheapShark, GamerPower, RAWG ve Frankfurter API'leri aracılığıyla gerçek zamanlı fiyat güncellemeleri alınır.</p></div>
+                    </div>
+                    <div class="info-detail-item">
+                        <i class="fa-solid fa-users detail-icon"></i>
+                        <div><h4>Sosyal Oyun Platformu</h4><p>Sesli sohbet odaları, LFG ilanı, arkadaşlık sistemi, birebir sohbet, turnuva fikstürleri ve oyun incelemeleri.</p></div>
+                    </div>
+                    <div class="info-detail-item">
+                        <i class="fa-solid fa-database detail-icon"></i>
+                        <div><h4>Bulut &amp; Yerel Güvenlik</h4><p>Room (SQLite) ve Firebase Realtime Database senkronizasyonu. Biyometrik kilit ve SHA-256 koruma.</p></div>
+                    </div>
+                    <div class="info-detail-item">
+                        <i class="fa-solid fa-mobile-screen detail-icon"></i>
+                        <div><h4>Modern Android Mimarisi</h4><p>Jetpack Compose ile oluşturulmuş Kotlin tabanlı uygulama. Android 7.0+ uyumlu. ~66-86 MB.</p></div>
+                    </div>
+                </div>
+                <div class="contact-block">
+                    <h2>İletişim ve Destek</h2>
+                    <p>Uygulama hakkında sorularınız için bizimle iletişime geçin.</p>
+                    <div class="contact-card">
+                        <i class="fa-solid fa-envelope contact-card-icon"></i>
+                        <div class="contact-card-info">
+                            <span>Destek E-Posta Adresimiz</span>
+                            <a href="mailto:infogamescout@gmail.com" class="contact-email">infogamescout@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="download" class="cta-download">
+        <div class="container">
+            <div class="cta-box">
+                <div class="cta-content">
+                    <h2>Hemen Ücretsiz İndirin</h2>
+                    <p>GameScout APK dosyasını doğrudan indirerek hemen kullanmaya başlayın. Topluluk ve ödül odaklı.</p>
+                    <div class="version-card">
+                        <div><div class="vlabel">Güncel Sürüm</div><div class="vnum">v0.3</div></div>
+                        <div style="width:1px;height:36px;background:rgba(139,92,246,.3)"></div>
+                        <div><div class="vlabel">Yayın Tarihi</div><div style="font-weight:700;color:#cbd5e1;font-size:15px">9 Ağustos 2026</div></div>
+                        <div style="width:1px;height:36px;background:rgba(139,92,246,.3)"></div>
+                        <div><div class="vlabel">Boyut</div><div style="font-weight:700;color:#cbd5e1;font-size:15px">~66 MB (Optimize)</div></div>
+                    </div>
+                    <div class="changelog">
+                        <strong>🔥 v0.3 — Güncelleme Notları (9 Ağustos 2026)</strong>
+                        ✅ 🎬 4K Fragman Oynatıcı &amp; YouTube Gameplay İzleyici<br>
+                        ✅ 🎮 Steam Kütüphane Başarımları &amp; Oynama Süresi Entegrasyonu<br>
+                        ✅ ⚔️ Yan Yana İki Oyun Karşılaştırma Motoru (Compare Screen)<br>
+                        ✅ 🎁 GamerPower Bedava Oyun &amp; Ganimet Radarı<br>
+                        ✅ 🔒 Biometric Prompt Parmak İzi &amp; Yüz Tanıma Kilit Güvenliği<br>
+                        ✅ ☁️ Firebase Bulut Senkronizasyon &amp; Otomatik Yedekleme<br>
+                        ✅ 📰 IGN, PC Gamer &amp; GameSpot Canlı Oyun Haberleri<br>
+                        ✅ 🔊 Sesli Odalarda Soundboard Ses Tahtası (10+ Efekt)<br>
+                        ✅ 🎧 3D 360° Konumsal Ses &amp; Müzik Botu Entegrasyonu<br>
+                        ✅ ⚡ 24 Saatte Bir Günlük Ödül Claim Güvenlik Koruması<br>
+                        ✅ 🔄 Firebase Otomatik Sürüm Kontrolü &amp; Güncelleme Uyarısı<br>
+                        ✅ 🌐 Sistem Dil/Bölgesine Göre Otomatik Para Birimi (TL, EUR, USD)<br>
+                        ✅ Android 12+ Koyu Tema Splash &amp; Sıfır Kilitlenme
+                    </div>
+                    <div class="download-info" style="margin-top:16px">
+                        <span><i class="fa-solid fa-microchip"></i> Android 7.0+</span>
+                        <span><i class="fa-solid fa-shield-halved"></i> Güvenli APK</span>
+                        <span><i class="fa-solid fa-coins"></i> GameCoin Ödüllü</span>
+                        <span><i class="fa-solid fa-tag"></i> Ücretsiz</span>
+                    </div>
+                    <div class="github-note">
+                        <i class="fa-brands fa-github"></i> &nbsp;Her zaman güncel APK
+                        <a href="https://github.com/infogamescout-spec/GameScout" target="_blank">GitHub</a>'da bulunur.
+                    </div>
+                </div>
+                <div class="cta-action" style="display:flex; flex-direction:column; gap:12px; align-items:stretch;">
+                    <a href="GameScout-v0.3.apk?v=0.3" class="btn btn-primary btn-large" id="download-btn-cta" download>
+                        <i class="fa-solid fa-download icon-left"></i> GameScout v0.3 İndir (Doğrudan APK)
+                    </a>
+                    <a href="https://apkpure.com/gamescout/com.aistudio.gamescout.pwqzs?utm_source=whatsapp&utm_campaign=share&utm_medium=social_network" target="_blank" class="btn btn-secondary btn-large" style="margin-left:0; border-color: rgba(139,92,246,0.3); background: rgba(139,92,246,0.05);">
+                        <i class="fa-solid fa-mobile-screen-button icon-left"></i> APKPure ile İndir
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container footer-container">
+        <p>&copy; 2026 GameScout. Tüm hakları saklıdır.</p>
+        <div class="footer-links">
+            <a href="https://github.com/infogamescout-spec/GameScout" target="_blank"><i class="fa-brands fa-github"></i> GitHub'da İncele</a>
+        </div>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+    document.querySelectorAll('.feature-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.feature-tab').forEach(function(t) { t.classList.remove('active'); });
+            document.querySelectorAll('.feature-panel').forEach(function(p) { p.classList.remove('active'); });
+            tab.classList.add('active');
+            document.getElementById(tab.dataset.panel).classList.add('active');
+        });
+    });
+</script>
+</body>
+</html>
