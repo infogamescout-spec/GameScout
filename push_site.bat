@@ -7,7 +7,7 @@ echo GameScout Web Sitesi v0.3 Guncelleme
 echo ---------------------------------
 echo Degisiklikler ekleniyor ve kaydediliyor...
 %GIT_EXE% add .
-%GIT_EXE% commit -m "Update GameScout Web Site and APK to v0.3"
+%GIT_EXE% commit -m "Update GameScout Web Site and official APKPure link to v0.3.2"
 echo GitHub'a yukleniyor...
 %GIT_EXE% push origin main --force
 echo ---------------------------------

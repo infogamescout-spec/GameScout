@@ -1,6 +1,6 @@
 {
-  "latestVersion": "0.3.1",
-  "versionCode": 5,
-  "downloadUrl": "https://infogamescout-spec.github.io/GameScout/GameScout-v0.3.1-APKPure.apk",
-  "releaseNotes": "0.3.1 Sürüm Yenilikleri: APKPure ve mağaza imza uyumluluk düzeltmesi yapıldı. Otomatik misafir girişi kaldırıldı, e-posta mailları aktif edildi."
+  "latestVersion": "0.3.2",
+  "versionCode": 6,
+  "downloadUrl": "https://apkpure.com/p/com.aistudio.gamescout.pwqzs",
+  "releaseNotes": "0.3.2 Sürüm Yenilikleri: APKPure resmi onayı alındı! Görsel Fiyat Geçmişi Grafiği, Steam Başarım Vitrini, Oyun Çıkış Takvimi, Profil Çerçeveleri & Oyun Rank Rozetleri eklendi."
 }
