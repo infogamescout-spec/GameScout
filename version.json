@@ -2,5 +2,7 @@
   "latestVersion": "0.3.2",
   "versionCode": 6,
   "downloadUrl": "https://apkpure.com/p/com.aistudio.gamescout.pwqzs",
-  "releaseNotes": "0.3.2 Sürüm Yenilikleri: APKPure resmi onayı alındı! Görsel Fiyat Geçmişi Grafiği, Steam Başarım Vitrini, Oyun Çıkış Takvimi, Profil Çerçeveleri & Oyun Rank Rozetleri eklendi."
+  "directDownloadUrl": "https://github.com/infogamescout-spec/GameScout/releases/download/v0.3.2/GameScout-v0.3.2-APKPure.apk",
+  "releaseDate": "2026-08-15",
+  "releaseNotes": "0.3.2 Sürüm Yenilikleri: %100 Kararlı Başlatma Koruması, Gelişmiş Fiyat Geçmişi Eğrisi Grafiği, Steam Başarım ve Oynama Süresi Vitrini, 4K Fragman Oynatıcı, GamerPower Bedava Oyun Radarı, Canlı Sesli Odalar & Soundboard, Biyometrik Parmak İzi/Yüz Tanıma ve Sıfır Çökme Güvencesi."
 }
